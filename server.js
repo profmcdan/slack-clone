@@ -2,31 +2,37 @@ import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import path from "path";
-import { ApolloServer, gql } from "apollo-server-express";
-import { makeExecutableSchema } from "graphql-tools";
+import { ApolloServer } from "apollo-server-express";
+// import { makeExecutableSchema } from "graphql-tools";
+import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
 
-import typeDefs from "./schema";
-import resolvers from "./resolvers";
 import models from "./models";
 
-export const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});
-
 const app = express();
+
+// Load and Merge Types and Resolvers
+const typeDefs = mergeTypes(fileLoader(path.join(__dirname, "./schema")));
+const resolvers = mergeResolvers(
+  fileLoader(path.join(__dirname, "./resolvers"))
+);
+
+// Configure Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
-const server = new ApolloServer({ typeDefs, resolvers });
+// Setup the Server
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: { models, user: { id: "be14c113-aa08-42ef-992d-4a117e88a704" } }
+});
 server.applyMiddleware({ app });
-// app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
 
 // Sync() to create all tables if they dont already exist in the database
 // sync({ force: true })
-models.sequelize.sync({ force: true }).then(() => {
+models.sequelize.sync().then(() => {
   app.listen({ port: 8080 }, () => {
     console.log(
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
