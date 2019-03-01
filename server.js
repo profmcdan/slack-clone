@@ -25,7 +25,8 @@ server.applyMiddleware({ app });
 // app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
 
 // Sync() to create all tables if they dont already exist in the database
-models.sequelize.sync().then(() => {
+// sync({ force: true })
+models.sequelize.sync({ force: true }).then(() => {
   app.listen({ port: 8080 }, () => {
     console.log(
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
