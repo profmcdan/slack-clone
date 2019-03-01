@@ -5,7 +5,8 @@ const dbConfig = require("../config/config").db;
 const sequelize = new Sequelize(
   dbConfig.database,
   dbConfig.username,
-  dbConfig.password
+  dbConfig.password,
+  { host: "localhost", dialect: "postgres", operatorsAliases: false }
 );
 
 const models = {
