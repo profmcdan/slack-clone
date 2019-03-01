@@ -1,18 +1,14 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Channel = sequelize.define(
-    "channel",
-    {
-      id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
-      },
-      text: { type: DataTypes.STRING },
-      public: DataTypes.BOOLEAN
+  const Channel = sequelize.define("channel", {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
     },
-    { underscored: true }
-  );
+    text: { type: DataTypes.STRING },
+    public: DataTypes.BOOLEAN
+  });
 
   Channel.associate = models => {
     // 1:M

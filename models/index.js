@@ -6,7 +6,12 @@ const sequelize = new Sequelize(
   dbConfig.database,
   dbConfig.username,
   dbConfig.password,
-  { host: "localhost", dialect: "postgres", operatorsAliases: false }
+  {
+    host: "localhost",
+    dialect: "postgres",
+    operatorsAliases: false,
+    define: { underscored: true }
+  }
 );
 
 const models = {
