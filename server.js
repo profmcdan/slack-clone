@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import path from "path";
+import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 // import { makeExecutableSchema } from "graphql-tools";
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
@@ -17,6 +18,7 @@ const resolvers = mergeResolvers(
 );
 
 // Configure Middleware
+app.use(cors("*"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));

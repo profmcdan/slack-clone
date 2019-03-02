@@ -12,6 +12,10 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
+  globals: {
+    document: 1,
+    console: 1
+  },
   plugins: ["react"],
   rules: {
     indent: ["error", 2],
