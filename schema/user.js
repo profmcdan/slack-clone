@@ -8,12 +8,22 @@ export default gql`
     teams: [Team!]!
   }
 
+  type RegisterResponse {
+    ok: Boolean!
+    user: User
+    errors: [Error!]
+  }
+
   type Query {
     getUser(id: String!): User!
     getUsers: [User!]!
   }
 
   type Mutation {
-    register(username: String!, email: String!, password: String!): Boolean!
+    register(
+      username: String!
+      email: String!
+      password: String!
+    ): RegisterResponse!
   }
 `;

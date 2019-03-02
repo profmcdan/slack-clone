@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { formatErrors } from "../helpers/errorsManager";
 
 export default {
   Query: {
@@ -11,10 +12,16 @@ export default {
       try {
         const hashedPassword = await bcrypt.hash(args.password, 12);
         args.password = hashedPassword;
-        await models.User.create(args);
-        return true;
+        const user = await models.User.create(args);
+        return {
+          ok: true,
+          user
+        };
       } catch (err) {
-        return false;
+        return {
+          ok: false,
+          errors: formatErrors(err, models)
+        };
       }
     }
   }
