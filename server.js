@@ -8,6 +8,8 @@ import { ApolloServer } from "apollo-server-express";
 import { fileLoader, mergeTypes, mergeResolvers } from "merge-graphql-schemas";
 
 import models from "./models";
+const SECRET = "eghbjnklknjhyfu876rcghjb";
+const SECRET2 = "kjihugyt567ui8kjhnbvfgy54ertdfgx2w";
 
 const app = express();
 
@@ -28,16 +30,21 @@ app.use(express.static(path.join(__dirname, "public")));
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: { models, user: { id: "be14c113-aa08-42ef-992d-4a117e88a704" } }
+  context: {
+    models,
+    user: { id: "be14c113-aa08-42ef-992d-4a117e88a704" },
+    SECRET,
+    SECRET2
+  }
 });
 server.applyMiddleware({ app });
 
 // Sync() to create all tables if they dont already exist in the database
 // sync({ force: true })
 models.sequelize.sync().then(() => {
-  app.listen({ port: 8080 }, () => {
+  app.listen({ port: 8050 }, () => {
     console.log(
-      `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
+      `🚀 Server ready at http://localhost:8050${server.graphqlPath}`
     );
   });
 });

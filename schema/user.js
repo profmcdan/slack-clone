@@ -14,6 +14,13 @@ export default gql`
     errors: [Error!]
   }
 
+  type LoginResponse {
+    ok: Boolean!
+    token: String
+    refreshToken: String
+    errors: [Error!]
+  }
+
   type Query {
     getUser(id: String!): User!
     getUsers: [User!]!
@@ -25,5 +32,6 @@ export default gql`
       email: String!
       password: String!
     ): RegisterResponse!
+    login(email: String!, password: String!): LoginResponse!
   }
 `;

@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { formatErrors } from "../helpers/errorsManager";
+import { tryLogin } from "../helpers/auth";
 
 export default {
   Query: {
@@ -8,6 +9,9 @@ export default {
     getUsers: (parent, args, { models }) => models.User.findAll()
   },
   Mutation: {
+    login: async (parent, { email, password }, { models, SECRET, SECRET2 }) => {
+      return tryLogin(email, password, models, SECRET, SECRET2);
+    },
     register: async (parent, args, { models }) => {
       try {
         if (args.password.length < 5 || args.password.length > 100) {

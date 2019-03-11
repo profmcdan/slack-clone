@@ -2,17 +2,12 @@ import Sequelize from "sequelize";
 
 const dbConfig = require("../config/config").db;
 
-const sequelize = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  {
-    host: "localhost",
-    dialect: "postgres",
-    operatorsAliases: false,
-    define: { underscored: true }
-  }
-);
+const sequelize = new Sequelize(dbConfig.url, {
+  host: "localhost",
+  dialect: "postgres",
+  operatorsAliases: false,
+  define: { underscored: true }
+});
 
 const models = {
   User: sequelize.import("./user"),
